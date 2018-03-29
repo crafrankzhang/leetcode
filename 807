@@ -1,0 +1,72 @@
+class Solution {
+    public int maxIncreaseKeepingSkyline(int[][] grid) {
+        
+    int length;
+    length=grid.length;
+
+    int []a=new int[length];
+    int []b=new int[length];
+    int max;    
+        for(int i=0;i<length;i++)
+        {   max=grid[i][0];
+            for( int j=1;j<length;j++)
+            {
+                if(grid[i][j]>max)
+                    max=grid[i][j];
+            }
+             a[i]=max;
+            
+            
+        }
+        
+        for(int j=0;j<length;j++)
+        {
+                max=grid[0][j];
+               for( int i=0;i<length;i++)
+               {
+               if(grid[i][j]>max)
+                   max=grid[i][j];
+               
+               
+               }
+              b[j]=max;
+
+         }
+        
+        int output=0;
+        int c;
+        for(int i=0;i<length;i++)
+        {
+        for(int j=0;j<length;j++)
+        {
+            
+            if(a[i]<b[j])
+            {
+                c=a[i]-grid[i][j];
+                output+=c;
+             }
+            else
+            {
+                
+                c=b[j]-grid[i][j];
+                output+=c;
+                
+            }
+         c=0;
+            
+        }
+        
+        
+        
+        }
+        
+        
+        return output;
+        
+        
+        
+        
+        
+    
+}
+}
