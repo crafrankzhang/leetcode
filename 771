@@ -1,0 +1,24 @@
+class Solution {
+    public int numJewelsInStones(String J, String S) {
+        
+        char[]a=J.toCharArray();
+        char[]b=S.toCharArray();
+        int output=0;
+        for(char key1:a)
+        {
+            for(char key2:b )
+            {
+                
+                if(key2==key1)
+                    output++;
+                
+                
+            }
+            
+            
+            
+        }
+        return output;
+        
+    }
+}
