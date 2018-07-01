@@ -1,0 +1,77 @@
+class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        
+         List<Integer> list = new LinkedList<Integer>();
+        
+        if(rowIndex == 0)
+        {
+         list.add(1);
+            return list;
+        }
+        
+        if(rowIndex ==1)
+        {
+         
+            list.add(1);
+            list.add(1);
+            return list;
+        }
+        
+        
+        
+        
+        int size = 595;
+     
+        int [] arr = new int[size];  
+  
+        arr[0] = 1;
+        arr[1] = 1;
+        arr[2] = 1;
+        int m = 1;
+        int n = 2;
+        int k = 3;
+        int lin=0;
+        for(int i = rowIndex -1; i>0;i--)
+        {
+            
+            
+          arr[m+k-1] = 1;
+          arr[n+k]=1;
+          while(m<n){
+            
+           lin = arr[m]+arr[m+1];
+           m++;
+           arr[m+k-1] = lin ;
+              
+              
+
+          }  
+            
+            m=n+1;
+            n=n+k;
+            k++;
+            
+
+         }
+        
+        
+        int kk = 0;
+        
+         for(int i=1;i<rowIndex+1;i++)
+        {
+            kk += i;
+}
+        for( int i = 0 ;i<rowIndex +1 ;i++)
+        {
+             list.add(arr[kk]);
+            kk++;
+
+
+}
+        
+        return list;
+        
+        
+        
+    }
+}
