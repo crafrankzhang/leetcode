@@ -1,0 +1,17 @@
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        if (s.equals("")) return false;
+        boolean [] dp = new boolean[s.length() + 1];
+        Set<String> hashset = new HashSet<>(wordDict);
+        dp[0] = true;
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = i-1; j >= 0; j--) { // !! i-1 to 0 rather than 0 to i-1
+                if (dp[j] && hashset.contains(s.substring(j, i))) {
+                    dp[i] = true;
+                    break; // Stop searching other methods.
+                }
+            }
+        }
+        return dp[s.length()];
+    }
+}

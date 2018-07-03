@@ -1,0 +1,22 @@
+class Solution {
+    public double myPow(double x, int n) {
+        if (n >= 0) {
+            return posMyPow(x, n);
+        } else {
+            return 1 / posMyPow(x, n);
+        }
+    }
+    
+    private double posMyPow(double x, int n) {
+        if (n == 0) {
+            return 1;
+        }
+        double half = posMyPow(x, n / 2);
+        
+        if (n % 2 == 0) {
+            return half * half;
+        } else {
+            return half * half * x;
+        }
+    }
+}
