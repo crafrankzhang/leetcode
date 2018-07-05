@@ -1,0 +1,26 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices.length == 0) {
+            return 0;
+        }
+        int max = 0;
+        int b = prices[0];
+        int s = prices[0];
+        for (int p: prices) {
+            if (b > p) {
+                b = p;
+                s = p;
+            }
+            
+            if (s < p) {
+                s = p;
+            }
+            
+            max = Math.max(max, s-b);
+        }
+        return max;
+    }
+}```
+
+
+Sort By

@@ -1,0 +1,33 @@
+public static int myAtoi(String str) {
+
+    String resString = str.trim();
+    int range = resString.indexOf(' ');
+    if (range != -1)
+        resString = resString.substring(0, range);
+
+    StringBuilder sb = new StringBuilder();
+    char ch;
+    for (int i = 0; i < resString.length(); i++) {
+        ch = resString.charAt(i);
+        if (i == 0 & (ch == '-' | ch == '+')) {
+            sb.append(ch);
+            continue;
+        }
+        if (!Character.isDigit(ch))
+            break;
+        sb.append(ch);
+    }
+
+    if (sb.length() == 0 | sb.toString().equalsIgnoreCase("-") | sb.toString().equalsIgnoreCase("+"))
+        return 0;
+
+    return (int) Double.parseDouble(sb.toString());
+
+}
+
+public static void main(String[] args) {
+    System.out.println(myAtoi("  "));
+}
+}
+
+'''
