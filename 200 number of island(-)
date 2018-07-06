@@ -1,0 +1,40 @@
+class Solution {
+    public int numIslands(char[][] grid) {
+        int ret=0;
+        int ro=grid.length;
+        if(ro==0)return 0;
+        int col=grid[0].length;
+        if(col==0)return 0;
+        int vis[][]=new int[ro][col];
+        for(int i=0;i<ro;i++){
+            for(int j=0;j<col;j++){
+                if(vis[i][j]==0 && grid[i][j]=='1'){ret++;dfs(i,j,vis,grid);}
+            }
+        }
+        return ret;
+    }
+    public void dfs(int i,int j,int vis[][],char[][] grid){
+        vis[i][j]=1;
+        int ro=vis.length;int col=vis[0].length;
+        if(i==0 && j==0){
+            if(i<ro-1 && vis[i+1][j]==0 && grid[i+1][j]=='1')dfs(i+1,j,vis,grid);
+            if(j<col-1 && vis[i][j+1]==0 && grid[i][j+1]=='1')dfs(i,j+1,vis,grid);
+        } 
+        else if(i==0){
+            if(i<ro-1 && vis[i+1][j]==0 && grid[i+1][j]=='1')dfs(i+1,j,vis,grid);
+            if(j<col-1 && vis[i][j+1]==0 && grid[i][j+1]=='1')dfs(i,j+1,vis,grid);
+            if(vis[i][j-1]==0 && grid[i][j-1]=='1')dfs(i,j-1,vis,grid);
+        }
+        else if(j==0){
+            if(i<ro-1 && vis[i+1][j]==0 && grid[i+1][j]=='1')dfs(i+1,j,vis,grid);
+            if(j<col-1 && vis[i][j+1]==0 && grid[i][j+1]=='1')dfs(i,j+1,vis,grid);
+            if(vis[i-1][j]==0 && grid[i-1][j]=='1')dfs(i-1,j,vis,grid);
+        }
+        else{
+            if(i<ro-1 && vis[i+1][j]==0 && grid[i+1][j]=='1')dfs(i+1,j,vis,grid);
+            if(j<col-1 && vis[i][j+1]==0 && grid[i][j+1]=='1')dfs(i,j+1,vis,grid);
+            if(vis[i-1][j]==0 && grid[i-1][j]=='1')dfs(i-1,j,vis,grid);
+            if(vis[i][j-1]==0 && grid[i][j-1]=='1')dfs(i,j-1,vis,grid);
+        }
+    }
+}
