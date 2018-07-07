@@ -1,0 +1,60 @@
+class Solution {
+    
+    //node class created so we can use backtracking algorithm without caring about order
+    public static class Node {
+        int value;
+        public Node(int value) {
+            this.value = value;
+        }
+    }
+    
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        
+        //Hashset used so we can eliminate duplicates 
+        //(yes I know extra work can be eliminated by
+        //optimizing the bounding function.
+                
+        HashSet<ArrayList<Integer>> result = new HashSet<ArrayList<Integer>>();
+        List<List<Integer>> finalResult = new ArrayList<>();
+        
+        Node[] nodeNums = new Node[nums.length];
+        for(int i = 0; i < nodeNums.length; i++) {
+            nodeNums[i] = new Node(nums[i]);
+        }
+       
+        permuteUnique(nodeNums, new ArrayList<Node>(), result, 0);
+        
+        //add all remainder back to finalized list
+        for(ArrayList<Integer> i : result) {
+            finalResult.add(i);   
+        }
+        
+        return finalResult;
+        
+    }
+    
+    public void permuteUnique(Node[] nodeNums, 
+                              ArrayList<Node> candidate, 
+                              HashSet<ArrayList<Integer>> result,
+                              int start) {
+        
+            if(candidate.size() == nodeNums.length) {
+                ArrayList<Integer> c = new ArrayList<>();
+                
+                for(Node i : candidate) {
+                    c.add(i.value);
+                }
+                result.add(c);
+                return;
+            } else {
+                for(int i = 0; i < nodeNums.length; i++) {
+                    if(candidate.contains(nodeNums[i])) continue;
+                    
+                    candidate.add(nodeNums[i]);
+                    permuteUnique(nodeNums, candidate, result, i);
+                    candidate.remove(candidate.size() - 1);
+                }
+            }
+     
+    }
+}

@@ -1,0 +1,42 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        
+        // Early return check
+        if (prices.length == 0)
+            return 0;
+        
+        // Variable to track the current buy price
+        int buy_price = prices[0];
+        
+        // Variables to keep a track of profits
+        int max_profit = 0;
+        int current_profit = 0;
+        
+        for (int i = 1; i < prices.length; i++) {
+            
+            // If the current price is more than buy price calculate the profit
+            // If the profit is more than max_profit, update the value
+            if (prices[i] > buy_price) {
+                current_profit = prices[i] - buy_price;
+                
+                // Update the i pointer to start the next round of buy and sell
+                // Update the buy_price to the first price of this round
+                if (i < prices.length - 1) 
+                    buy_price = prices[i];
+            }
+            
+            // Otherwise, update the buy_price to the new price
+            else 
+                buy_price = prices[i];
+            
+            // Update the max_profit at the end of each iteration
+            max_profit += current_profit;
+            
+            // Clear the current_profit for the next round
+            current_profit = 0;
+        }
+        
+        // Return the result
+        return max_profit;
+    }
+}
