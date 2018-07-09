@@ -1,0 +1,53 @@
+ public int lengthOfLongestSubstring(String s) {
+        
+        if ( s.length()  == 0)
+            return 0; 
+        
+        if( s.length() == 1 )
+            return 1;
+        
+        int len = Integer.MIN_VALUE; 
+        int dist = 0; 
+        
+        HashSet<Character> q = new HashSet<>(); 
+        
+        int i = 0; 
+        int j = 0; 
+        
+        while ( j < s.length() ) {
+            if ( !q.contains(s.charAt(j)) ) {
+                q.add(s.charAt(j)); 
+                dist++;
+                j++;
+                if(dist > len )
+                    len = dist; 
+            }
+            
+            else {
+                
+                if ( s.charAt(i) == s.charAt(j)  ){  // the character at the tail is the duplicate, so just 
+                    q.remove(s.charAt(i));           // remove it
+                    i++; 
+                    dist--; 
+                }
+                
+                else {
+               // else remove characters until we find the duplicate character 
+                while ( s.charAt(i) != s.charAt(j) ) {
+                    q.remove(s.charAt(i)); 
+                    i++; 
+                    dist--;    
+                }
+                q.remove(s.charAt(i));
+                dist--; 
+                i++;
+                
+                    
+                }
+                
+            }
+        }
+        
+        return len; 
+        
+    }

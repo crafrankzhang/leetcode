@@ -1,0 +1,57 @@
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        if (tasks == null || tasks.length == 0) {
+            return 0;
+        }
+        int totalJobs = tasks.length;
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : tasks) {
+            if(!map.containsKey(c)) {
+                map.put(c, 0);
+            }
+            map.put(c, map.get(c) + 1);
+        }
+        
+        PriorityQueue<Node> pq = new PriorityQueue<Node>(map.size(), new Comparator<Node>() {
+            public int compare(Node a, Node b) {
+                return b.count - a.count;
+            }
+        });
+        
+        for (char c : map.keySet()) {
+            Node node = new Node(c, map.get(c));
+            pq.offer(node);
+        }
+        
+        Queue<Node> queue = new LinkedList<Node>();
+        int count = 0;
+        while(!pq.isEmpty() || totalJobs > 0) {
+            Node top = pq.poll();
+            top.count--;
+            queue.offer(top);
+            if (top.c != 'x') {
+                totalJobs--;
+            }
+            if (queue.size() > n) {
+                Node queueTop = queue.poll();
+                if (queueTop.count != 0) {
+                    pq.offer(queueTop);    
+                }
+            }
+            if (totalJobs > 0 && pq.isEmpty()) {
+                pq.offer(new Node('x', 1));
+            }
+            count++;
+        }
+        return count;
+    }
+}
+
+class Node {
+    char c;
+    int count;
+    public Node(char c, int count) {
+        this.c = c;
+        this.count = count;
+    }
+}
