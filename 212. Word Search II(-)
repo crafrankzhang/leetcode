@@ -1,0 +1,64 @@
+class Solution {
+    
+    private int R = 26; 
+    private Node root = new Node();
+    
+    private class Node {
+        public String val;
+        public Node[] next = new Node[R];
+    }
+    
+    private void put(String s) {
+        Node node = root;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (node.next[c - 'a'] == null) {
+                node.next[c - 'a'] = new Node();
+            }
+            node = node.next[c - 'a'];
+        }
+        node.val = s;
+    }
+    
+    private void buildTrie(String[] words) {
+        for (int i = 0; i < words.length; i++) {
+            put(words[i]);
+        }
+    }
+    
+    public List<String> findWords(char[][] board, String[] words) {
+        List<String> list = new ArrayList<String>();
+        buildTrie(words);
+        if (words == null || words.length == 0 || board == null || board.length == 0 || board[0].length == 0) return list;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) { 
+                dfs(board, root, list, i, j);
+            }
+        }
+        return list;
+    }
+    
+    private void dfs(char[][] board, Node x, List<String> list, int row, int col) {
+        char c = board[row][col];
+        if (c == '*') return; //same word cannot be use twice...
+        if (x.next[c - 'a'] == null) return; //need to consider x.next here, other wise not work for 1-by-1 board...
+        String val = x.next[c - 'a'].val;
+        if (val != null) {
+            if (!list.contains(val)) list.add(val);
+        }
+        board[row][col] = '*';
+        if (row + 1 < board.length) {
+            dfs(board, x.next[c - 'a'], list, row + 1, col);
+        }
+        if (row - 1 >= 0) {
+            dfs(board, x.next[c - 'a'], list, row - 1, col);
+        }
+        if (col + 1 < board[0].length) {
+            dfs(board, x.next[c - 'a'], list, row, col + 1);
+        }
+        if (col - 1 >= 0) {
+            dfs(board, x.next[c - 'a'], list, row, col - 1);
+        }
+        board[row][col] = c;
+    }
+}
