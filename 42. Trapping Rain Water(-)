@@ -1,0 +1,25 @@
+class Solution {
+    public int trap(int[] height) {
+        int ans = 0;
+        if(height.length <= 2)
+            return 0;
+        int [] left = new int[height.length];
+        left[0]=0;
+        int leftmax = height[0];
+        for(int i=1;i<left.length;i++)
+        {
+            left[i] = leftmax;
+            if(height[i]>=leftmax)
+                leftmax = height[i];
+        }
+        int rightmax = height[height.length-1];
+        for(int i = height.length - 2;i>=0;i--)
+        {
+            int temp = (Math.min(left[i],rightmax) - height[i]) > 0 ? Math.min(left[i],rightmax) - height[i] :0;
+            ans += temp;
+            if(height[i]>=rightmax)
+                rightmax = height[i];
+        }
+        return ans;
+    }
+}
