@@ -1,0 +1,99 @@
+ public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        Set<String> wordSet = new HashSet<>();
+        for (String word : wordList){
+            wordSet.add(word);
+        }
+        List<List<String>> res = new ArrayList<>();
+        if (!wordSet.contains(endWord)){
+            return res;
+        }
+        if (beginWord.equals(endWord)){
+            List<String> cur = new ArrayList<>();
+            cur.add(endWord);
+            res.add(cur);
+            return res;
+        }
+        Queue<String> q1 = new ArrayDeque<>(), q2 = new ArrayDeque<>();
+        Map<String, List<String>> preMap1 = new HashMap<>(), preMap2 = new HashMap<>();
+        Map<String, Integer> stepMap1 = new HashMap<>(), stepMap2 = new HashMap<>();
+        List<String> collision = new ArrayList<>();
+        int step = 1;
+        boolean find = false;
+        q1.offer(beginWord);
+        q2.offer(endWord);
+        preMap1.put(beginWord, null);
+        preMap2.put(endWord, null);
+        stepMap1.put(beginWord, step);
+        stepMap2.put(endWord, step);
+        while (!q1.isEmpty() && !q2.isEmpty() && !find){
+            Queue<String> qSmall = q1.size() <= q2.size() ? q1 : q2;
+            Map<String, List<String>> preMapSmall = q1.size() <= q2.size() ? preMap1 : preMap2;
+            Map<String, List<String>> preMapLarge = preMapSmall == preMap1? preMap2 : preMap1;
+            Map<String, Integer> stepMapSmall = q1.size() <= q2.size() ? stepMap1 : stepMap2;
+            int size = qSmall.size();
+            step++;
+            for (int i = 0; i < size; i++){
+                String cur = qSmall.poll();
+                char[] curArray = cur.toCharArray();
+                for (int k = 0; k < curArray.length; k++){
+                    char old = curArray[k];
+                    for (char c = 'a'; c <= 'z'; c++){
+                        if (c != old){
+                            curArray[k] = c;
+                            String next = new String(curArray);
+                            if (wordSet.contains(next)){
+                                if (!preMapSmall.containsKey(next)){
+                                    List<String> preList = new ArrayList<>();
+                                    preList.add(cur);
+                                    preMapSmall.put(next, preList);
+                                    stepMapSmall.put(next, step);
+                                    qSmall.offer(next);  
+                                    if (preMapLarge.containsKey(next)){
+                                        collision.add(next);
+                                        find = true;
+                                    }
+                                }else if (stepMapSmall.get(next) == step){
+                                    preMapSmall.get(next).add(cur);
+                                }
+                                
+                            }                            
+                        }
+                    }
+                    curArray[k] = old;
+                }
+            }
+        }
+        if (!find){
+            return res;
+        }
+        for (String joint : collision){
+            List<List<String>> lefts = new ArrayList<>(), rights = new ArrayList<>();
+            getPath(joint, preMap1, new ArrayList<String>(), lefts);
+            getPath(joint, preMap2, new ArrayList<String>(), rights);
+            for (List<String> left : lefts){
+                Collections.reverse(left);
+                left.remove(left.size() - 1);
+                for (List<String> right : rights){
+                    List<String> path = new ArrayList<>();
+                    path.addAll(left);
+                    path.addAll(right);
+                    res.add(path);
+                }
+            }
+        }
+        return res;
+    }
+    private void getPath(String joint, Map<String, List<String>> preMap, List<String> cur, List<List<String>> res){
+        List<String> preList = preMap.get(joint);
+        if (preList == null){
+            cur.add(joint);
+            res.add(new ArrayList<String>(cur));
+            cur.remove(cur.size() - 1);
+            return;
+        }
+        cur.add(joint);
+        for (String pre : preList){
+            getPath(pre, preMap, cur, res);    
+        }
+        cur.remove(cur.size() - 1);
+    }
