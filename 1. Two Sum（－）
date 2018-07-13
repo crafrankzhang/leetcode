@@ -1,0 +1,26 @@
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int pairs[] = new int[2];
+        int complement;
+        int targetIndex;
+        ArrayList<Integer> numsList = new ArrayList<Integer>();
+        for(int i = 0; i < nums.length; i++)
+        {
+            numsList.add(nums[i]);
+        }
+        
+        for(int j = 0; j < nums.length; j++)
+        {
+            complement = target - nums[j];
+            targetIndex = numsList.indexOf(complement);
+            if(targetIndex > -1 && targetIndex != j)
+            {
+                targetIndex = numsList.indexOf(complement);
+                pairs[0] = j;
+                pairs[1] = targetIndex;
+                return pairs;
+            }
+        }
+        return pairs;
+    }
+}

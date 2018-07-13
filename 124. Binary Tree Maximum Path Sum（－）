@@ -1,0 +1,32 @@
+class Solution {
+    int sol = Integer.MIN_VALUE;
+    class Result{
+        public int left = 0;
+        public int right = 0;
+        public Result(){}
+        public Result(TreeNode root){ this.left = this.right = root.val; }
+    }
+    
+    public int maxPathSum(TreeNode root) {
+        helper(root);
+        return sol;
+    }
+    
+    public Result helper(TreeNode root){
+        if(root == null) return null;
+        Result left = helper(root.left);
+        Result right = helper(root.right);
+        Result res = new Result(root);
+        
+        if(left != null){
+            res.left = Math.max(res.left, root.val + Math.max(left.left, left.right));
+        }
+        
+        if(right != null){
+            res.right = Math.max(res.right, root.val + Math.max(right.left, right.right));
+        }
+        
+        sol = Math.max(sol, res.left + res.right - root.val);
+        return res;
+    }
+}
