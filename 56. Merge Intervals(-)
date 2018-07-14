@@ -1,0 +1,40 @@
+class Solution {
+    public List<Interval> merge(List<Interval> intervals) {
+        //comparator to sort intervals based on their start value
+        Comparator<Interval> comparator = new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                return o1.start-o2.start;
+            }
+        };
+        
+        List<Interval> result = new ArrayList<>();
+        if(intervals.size()==0)
+            return result;
+        
+        //Sort Collection first
+        Collections.sort(intervals, comparator);
+        int currStart = intervals.get(0).start;
+        int currEnd = intervals.get(0).end;
+        for(int i=1; i<intervals.size(); i++){
+            Interval interval = intervals.get(i);
+            
+            //If current element's range is less than existing range; skip 
+            if(currStart<=interval.start && currEnd >= interval.end)
+                continue;
+            //If current element's start is less than existing end; overlapping exist
+            if(currEnd >= interval.start){
+                //update exiisting value accordingly
+                currEnd = interval.end;
+            }else{
+                //No overlapping; add range to result and update existing
+                result.add(new Interval(currStart, currEnd));
+                currStart = interval.start;
+                currEnd = interval.end;
+            }
+        }
+        //loop exited before adding the last element so we do it here
+        result.add(new Interval(currStart, currEnd));
+        return result;
+    }
+}
