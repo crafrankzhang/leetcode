@@ -1,0 +1,94 @@
+class Solution {
+    class Node {
+        char v;
+        boolean isStar;
+        Node next;
+        public Node(char v, boolean isStar, Node next) {
+            this.v = v;
+            this.isStar = isStar;
+            this.next = next;
+        }
+    }
+    
+    public boolean isMatch(String s, String p) {
+        char[] ss = s.toCharArray();
+        Node regNode = parseToRegGraph(p);
+        // printGraph(regNode);
+        return followGraph(ss, 0, regNode);
+    }
+    
+    public boolean followGraph(char[] s, int index, Node reg) {
+        // Reached the end of the array and the reg graph. Matches!
+        if (s.length == index && reg == null) {
+            return true;
+        }
+        
+        // Reached the end of the array but not the reg graph.
+        if (s.length == index) {
+            // If the rest of the graph is made of *, then we may be able to reach the end.
+            while (reg != null && reg.isStar) {
+                reg = reg.next;
+            }
+            
+            // If we've reached the end of the graph then it must be a match!
+            return reg == null;
+        }
+        
+        // Reached the end of graph but not the array :(.
+        if (reg == null) {
+            return false;
+        }
+        
+        
+        if (reg.v == '.' || reg.v == s[index]) {
+            // Character match!
+            if (reg.isStar) {
+                // Try 2 things:
+                // (1) continue on the same * node
+                // (2) continue to the next node
+                return followGraph(s, index + 1, reg) || followGraph(s, index, reg.next);
+            }
+            
+            // Not a star, which is fine, we can still follow the graph.
+            return followGraph(s, index + 1, reg.next);
+        } else if (reg.isStar) {
+            // Character didn't match, but this is a *, so we can still follow the graph
+            return followGraph(s, index, reg.next);
+        } else {
+            // Dead end
+            return false;
+        }
+    }
+    
+    // Helper function to print the Graph.
+    public void printGraph(Node regNode) {
+        Node curr = regNode;
+        while (curr != null) {
+            System.out.printf("(%c, %s) -> ", curr.v, curr.isStar);
+            curr = curr.next;
+        }
+        System.out.printf("null\n");
+    }
+    
+    public Node parseToRegGraph(String p) {
+        Node root = null;
+        Node cursor = null;
+        for (int i = 0; i < p.length(); i++) {
+            Node curr = new Node(p.charAt(i), false, null);
+            if (i + 1 < p.length()) {
+                if (p.charAt(i + 1) == '*') {
+                    curr.isStar = true;
+                    i++;
+                }
+            }
+            if (root == null) {
+                root = curr;
+                cursor = curr;
+            } else {
+                cursor.next = curr;
+                cursor = cursor.next;
+            }
+        }
+        return root;
+    }
+}
