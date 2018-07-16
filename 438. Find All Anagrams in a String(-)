@@ -1,0 +1,44 @@
+public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> result = new ArrayList<>();
+        if(s == null || p == null) return result;
+        if(s.length() < p.length()) return result;
+        
+        int p_value = 0;
+        for(char a : p.toCharArray())
+        {
+            p_value += a - 'a';
+        }
+        
+        int[] sum = new int[s.length() - p.length() + 1];
+        for(int i=0; i<s.length() - p.length() + 1; i++)
+        {
+            for(int j=i; j<i + p.length(); j++){
+                sum[i] += s.charAt(j) - 'a';
+            }
+        }
+        
+        for(int i=0; i<sum.length; i++){
+            if(sum[i] == p_value){
+                boolean isValid = isAnagram(s.substring(i, i + p.length()), p);
+                if(isValid == true) result.add(i);
+            }
+        }
+        return result;
+    }
+    
+    public boolean isAnagram(String s, String t) {
+        if(s == null || t == null) return false;
+        if(s.length() != t.length()) return false;
+        
+        int[] occurence = new int[26];
+        
+        for(int i=0; i<s.length(); i++){
+            occurence[s.charAt(i) - 'a'] += 1;
+            occurence[t.charAt(i) - 'a'] -= 1;
+        }
+        
+        for(int x : occurence){
+            if(x != 0) return false;
+        }
+        return true;
+    }

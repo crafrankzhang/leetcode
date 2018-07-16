@@ -1,0 +1,38 @@
+StringBuilder sb = new StringBuilder();
+    int[] count = new int[26];
+    
+    public String removeDuplicateLetters(String s) { 
+         
+        char[] schar = s.toCharArray(); 
+        for(char c : schar){
+            count[c - 'a']++;
+        }
+        helper(schar, 0); 
+        return sb.toString(); 
+    }
+    
+    private void helper(char[] schar, int start){ 
+        
+        if(start == schar.length) return;  
+        int pos = -1, i = start;
+        char cpos = 255;
+        for(;i < schar.length; i++) {
+            if(count[schar[i] - 'a'] == -1) continue; 
+            if (schar[i] < cpos){
+                pos = i;
+                cpos = schar[i];
+            }
+            if (--count[schar[i] - 'a'] == 0){
+                i++;
+                break;
+            }  
+        } 
+        
+        if(pos == -1) return;
+        sb.append(cpos);
+        count[cpos - 'a'] = -1;
+        for(int n = pos + 1; n < i; n++){ 
+            if(count[schar[n] - 'a'] != -1) count[schar[n] - 'a']++;
+        } 
+        helper(schar, pos + 1); 
+    }
