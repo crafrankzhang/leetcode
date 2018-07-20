@@ -1,0 +1,25 @@
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> list = new ArrayList();
+        levelOrderHelper(root, list, 0);
+        return list;
+    }
+    
+    void levelOrderHelper(TreeNode node, List<List<Integer>> list, Integer level) {
+        if (node==null) {
+            return;
+        }
+        
+        if (list.size()-1 < level){
+            list.add(new ArrayList());
+        }
+        
+        if (list.get(level) == null) {
+            list.add(level, new ArrayList());
+        }
+        
+        list.get(level).add(node.val);
+        levelOrderHelper(node.left, list, level+1);
+        levelOrderHelper(node.right, list, level+1);
+    }
+}
