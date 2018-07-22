@@ -1,0 +1,25 @@
+class Solution {
+ 2 public:
+ 3     int singleNumber(int A[], int n) {
+ 4         
+ 5         vector <int> flag(n,0);
+ 6         
+ 7         for(int i = 0; i < n; i++)  {
+ 8             if(flag[i] == 1)
+ 9                 continue;
+10             else    {
+11                 for(int j = i + 1; j < n; j++)  {
+12                     if(A[i] == A[j])    {
+13                         flag[i] = 1; 
+14                         flag[j] = 1;
+15                     }
+16                 }
+17             }
+18         }
+19         
+20         for(int i = 0; i < n; i++)  {
+21             if(flag[i] == 0)
+22                 return A[i];
+23         }
+24     }
+25 };

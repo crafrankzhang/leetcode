@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<int> order;
+        vector<int> outd(numCourses, 0);
+        vector<bool> del(numCourses, false);
+        unordered_map<int, vector<int> > graph;
+        // construct reverse neighborhood graph
+        // graph is to decrease the out-degree of a set of vertices, 
+        // when a certain vertice is deleted
+        for(int i = 0; i < prerequisites.size(); i ++)
+        {
+            outd[prerequisites[i].first] ++;
+            graph[prerequisites[i].second].push_back(prerequisites[i].first);
+        }
+        int count = 0;
+        while(count < numCourses)
+        {
+            int i;
+            for(i = 0; i < numCourses; i ++)
+            {
+                if(outd[i] == 0 && del[i] == false)
+                    break;
+            }
+            if(i < numCourses)
+            {
+                del[i] = true;  // delete
+                order.push_back(i);
+                for(int j = 0; j < graph[i].size(); j ++)
+                {// decrease the degree of vertices that links to vertice_i
+                    outd[graph[i][j]] --;
+                }
+                count ++;
+            }
+            else
+            {// no vertice with 0-degree
+                vector<int> noorder;
+                return noorder;
+            }
+        }
+        return order;
+    }
+};
