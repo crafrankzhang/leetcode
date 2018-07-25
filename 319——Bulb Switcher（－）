@@ -1,0 +1,35 @@
+class Solution {
+private:
+    void change(vector<int>&nums,int j)
+    {
+        if (nums[j] == 0)
+        {
+            nums[j] = 1;
+        }
+        else
+        {
+            nums[j] = 0;
+        }
+    }
+public:
+    int bulbSwitch(int n) {
+        vector<int>nums(n, 0);
+        int count = 0;
+        for (int i = 0; i < n; i++)//i+1 is operations
+        {
+            for (int j = i; j < n;j= j + i + 1)
+            {
+                change(nums,j);
+            }
+        }
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (nums[i] == 1)
+                count++;
+        }
+        return count;
+    }
+};
+
+
+
