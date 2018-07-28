@@ -1,0 +1,13 @@
+public class HammingDistance {
+    public static int getHammingDistance(int x, int y) {
+        int hammingDistance = 0;
+        //取x,y的异或，得到一个2进制，其中1的个数就是汉明距离
+        int z = x ^ y;
+        //用z与z-1做与运算，结果也做相同操作，运算几次就有几个1
+        while (z != 0) {
+            hammingDistance++;
+            z = z & (z - 1);
+        }
+        return hammingDistance;
+    }
+}
