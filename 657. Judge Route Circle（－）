@@ -1,0 +1,19 @@
+bool judgeCircle(char* moves) {
+    int len=strlen(moves);
+    int sumhorizontal=0;
+    int sumvertical=0;
+    for(int n=0;n<len;n++)
+    {
+        if(*(moves+n)=='U')
+            sumvertical++;
+        if(*(moves+n)=='D')
+            sumvertical--;
+        if(*(moves+n)=='L')
+            sumhorizontal--;
+        if(*(moves+n)=='R')
+            sumhorizontal++;
+    }
+    if(sumhorizontal==0&&sumvertical==0)
+        return true;
+    return false;
+}

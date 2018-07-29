@@ -1,0 +1,29 @@
+ public class Solution {
+ 2     public List<String> letterCombinations(String digits) {
+ 3         //把table上的数字对应的字母列出来，当输入为2是，digits[2]就是2所对应的"abc"
+ 4         String[] table = new String[] 
+ 5                              {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+ 6         List<String> list = new ArrayList<String>();
+ 7         //index从0开始，即digits的第一个数字
+ 8         letterCombinations(list,digits,"",0,table);
+ 9         return list;
+10     }
+11     
+12     private void letterCombinations (List<String> list, String digits, 
+13                                     String curr, int index,String[] table) {
+14         //最后一层退出条件
+15         if (index == digits.length()) {
+16             if(curr.length() != 0) list.add(curr);
+17             return;
+18         }
+19         
+20         //找到数字对应的字符串
+21         String temp = table[digits.charAt(index) - '0'];
+22         for (int i = 0; i < temp.length(); i++) {
+23             //每次循环把不同字符串加到当前curr之后
+24             String next = curr + temp.charAt(i);
+25             //进入下一层
+26             letterCombinations(list,digits,next,index+1,table);
+27         }
+28     }
+29 }
