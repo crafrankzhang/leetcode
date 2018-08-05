@@ -1,0 +1,73 @@
+class Solution {
+public:
+    string numberToWords(int num) {
+        if (num == 0)return "Zero";
+        string num1[] = { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine" };
+        string num2[] = { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
+        string tens[] = { "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+        string units[] = { "Thousand", "Million", "Billion" };
+        int thousand = 1;
+        int count = -1;
+
+        while (num / thousand >= 1000) {
+            thousand *= 1000;
+            count++;
+        }
+
+        string result = "";
+        while (num > 0) {
+            int n = num / thousand;
+            if (n > 0) {
+                if (result != "")result += " ";
+                result += hundred2Words(n, num1, num2, tens);
+                if (count >= 0){
+                    if (result != "")result += " ";
+                    result += units[count];
+                }
+            }
+
+            num = num % thousand;
+            thousand /= 1000;
+            count--;
+        }
+        return result;
+    }
+
+    string hundred2Words(int num, string num1[], string num2[], string tens[]) {
+        int pow = 100;
+        string result = "";
+        while (num > 0) {
+            int n = num / pow;
+            if (n != 0) {
+                switch (pow){
+                case 100: {
+                              if (result != "")
+                                  result += " ";
+                              result = result + num1[n - 1] + " " + "Hundred";
+                              break;
+                }
+                case 10: {
+                             if (result != "")result += " ";
+                             if (n == 1){
+                                 result += num2[num - 10];
+                                 return result;
+                             }
+                             else {
+                                 result += tens[n - 2];
+                             }
+                             break;
+                }
+                case 1: {
+                            if (result != "")result += " ";
+                            result += num1[n - 1];
+                            break;
+                }
+                }
+            }
+
+            num %= pow;
+            pow /= 10;
+        }
+        return result;
+    }
+};

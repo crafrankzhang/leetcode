@@ -1,0 +1,17 @@
+char findTheDifference(char* s, char* t) {
+    int i;
+    char c;
+    int ans[255];
+    memset(ans,0,sizeof(ans));
+ 
+    for(i=0;i<strlen(t);i++)
+        ans[t[i]] ++;
+    for(i=0;i<strlen(s);i++)
+        ans[s[i]] --;
+    for(i=97;i<122;i++)
+        if(ans[i] !=0)
+            break;
+    
+    return i;
+}
+
