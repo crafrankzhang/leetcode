@@ -1,0 +1,33 @@
+class Solution {
+    
+    public static boolean isSameSign(int a, int b) {
+        return a * b > 0;
+    }
+    
+    public int[] asteroidCollision(int[] asteroids) {
+        int n = asteroids.length, top = 0;
+        int[] stk = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            if (top == 0 || stk[top] < 0 || isSameSign(asteroids[i], stk[top])) {
+                stk[++ top] = asteroids[i];
+            } else {
+                while (top > 0 && stk[top] > 0 && stk[top] < -asteroids[i]) {
+                    top --;
+                }
+                if (top == 0 || stk[top] < 0) {
+                    stk[++ top] = asteroids[i];
+                } else {
+                    if (stk[top] == -asteroids[i]) {
+                        top --;
+                    }
+                }
+            }
+        }
+        int[] ans = new int[top];
+        for (int i = 1; i <= top; i++) {
+            ans[i - 1] = stk[i];
+        }
+        return ans;
+    }
+}
+
