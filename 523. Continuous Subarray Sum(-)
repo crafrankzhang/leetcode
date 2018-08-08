@@ -1,0 +1,27 @@
+public class Solution {
+    public boolean checkSubarraySum(int[] nums, int k) {
+        
+        Set<Integer> sums = new HashSet<Integer>();
+        boolean flag = false;
+        if(k == 0){
+            for(int i = 0 ; i < nums.length - 1; i ++){
+                if(nums[i] == 0 && nums[i] == nums[i + 1]) {flag = true; break;}
+            }
+        }else{
+            for(int item : nums){
+                    Set<Integer> temp = new HashSet<Integer>();
+                    Iterator<Integer> it = sums.iterator();
+                    while(it.hasNext()){
+                        int sum = it.next() + item;
+                        if(sum % k == 0 || sum == 0) {flag = true; break;}
+                        temp.add(sum);
+                    }
+                    temp.add(item);
+                    sums = temp;
+                if(flag) break;
+            }
+        }
+        return flag;
+    }
+}
+
