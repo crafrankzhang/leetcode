@@ -1,0 +1,29 @@
+public TreeNode build2(int[] preorder, int[] inorder, int preIndex,
+            int startInIndex, int endInIndex) {
+        if (endInIndex < startInIndex) {
+            return null;
+        }
+        int currentVal = preorder[preIndex];
+        TreeNode node = new TreeNode(currentVal);
+
+        // the index of current node in inorder
+        int index;
+        for (index = startInIndex; index <= endInIndex; index++) {
+            if (currentVal == inorder[index]) {
+                break;
+            }
+        }
+        // int lenL = index - startInIndex;
+        // int lenR = endInIndex - index;
+
+        if (index > startInIndex) {
+            node.left = build(preorder, inorder, preIndex + 1, startInIndex,
+                    index - 1);
+        }
+        if (endInIndex > index) {
+            node.right = build(preorder, inorder, preIndex + index
+                    - startInIndex + 1, index + 1, endInIndex);
+        }
+
+        return node;
+    }
