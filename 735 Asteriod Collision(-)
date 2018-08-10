@@ -1,0 +1,52 @@
+class Solution {
+    public int[] asteroidCollision(int[] as) {
+        //给定一堆数字模拟小行星碰撞（正数代表向右，负数代表向左）,元素代表大小。当两个行星碰撞时，小的会爆炸(类似碰碰球)。
+        //如果尺寸大小相同，则都会爆炸。相同方向的永远不会碰撞。返回其碰撞的状态。
+        //思路：利用stack存储，每次对比栈顶元素（相同的话就放入栈中），否则就对比，直至栈顶相同为止
+        //注意：当栈顶为负数时，直接进栈。只有当栈顶为正数才需要发生碰撞
+        
+        Stack<Integer> stack=new Stack<Integer>();
+        for(int i=0;i<as.length;i++){
+            //如果栈为空或者大于0
+            if(stack.isEmpty()||as[i]>0){
+                stack.push(as[i]);
+                continue;
+            }
+            
+            //遇见不同方向元素
+            while(true){
+                int pre=stack.peek();
+                if(pre<0){
+                    //当栈顶为负数时
+                    stack.push(as[i]);
+                    break;
+                }else if(pre==-as[i]){
+                    //两个元素相同,消掉栈顶元素
+                    stack.pop();
+                    break;
+                }else if(pre>-as[i]){
+                    //栈顶元素更大，消掉
+                    break;
+                }else {
+                    //栈顶元素更小，依次迭代和栈顶比较，直至满足条件
+                    
+                    stack.pop();
+                    //如果栈为空了，就直接放入，否则继续循环比较
+                    if(stack.isEmpty()){
+                        stack.push(as[i]);
+                        break;
+                    }
+                }
+            }     
+        }
+        //将stack结果输出
+        int [] res=new int[stack.size()];
+        int i=stack.size()-1;
+        while(!stack.empty()){
+            res[i--]=stack.pop();    
+        }
+        return res;
+        
+    }
+}
+
