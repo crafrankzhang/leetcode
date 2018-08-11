@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+         bool flag = false;
+         int len = nums.size();
+         if(len > 1)
+         {
+            sort(nums.begin(),nums.end());
+            int MarkNum = nums[0];
+            for(int i = 1; i<= len; i++)
+            {
+                if(nums[i] == MarkNum)
+                    flag = true;
+                else
+                    MarkNum=nums[i];
+            }
+         }
+         else
+          flag = false;
+    return flag;
+    }
+};

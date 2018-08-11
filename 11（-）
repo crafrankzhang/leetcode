@@ -1,0 +1,12 @@
+public int maxArea(int[] height) {
+        /*int max=Integer.MIN_VALUE;
+        for(int i=0;i<height.length;i++){
+            for(int j=i+1;j<height.length;j++){
+                int h=height[i]>height[j]?height[j]:height[i];
+                if(h*(j-i)>max)
+                    max=h*(j-i);
+            }
+        }
+        return max;
+}
+
