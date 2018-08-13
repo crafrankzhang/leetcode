@@ -1,0 +1,33 @@
+ public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        Deque<TreeNode> deque = new LinkedList<TreeNode>();
+        deque.addFirst(root.left);
+        deque.addLast(root.right);
+
+        TreeNode preNode = null;
+        TreeNode postNode = null;
+
+        while (!deque.isEmpty()) {
+            preNode = deque.pollFirst();
+            postNode = deque.pollLast();
+            if (preNode == null && postNode == null) {
+                continue;
+            }
+            if (preNode == null || postNode == null) {
+                return false;
+            }
+            if (preNode.val != postNode.val) {
+                return false;
+            } else {
+                deque.addFirst(preNode.right);
+                deque.addFirst(preNode.left);
+
+                deque.addLast(postNode.left);
+                deque.addLast(postNode.right);
+            }
+        }
+        return true;
+    }

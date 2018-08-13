@@ -1,0 +1,20 @@
+bool repeatedSubstringPattern(string str) {
+        int len = str.size();
+        for (int i = 1; i <= len / 2; i++) {
+            if (len % i == 0) {
+                string sub = str.substr(0, i);
+                
+                int j;
+                for (j = 1; j < len / i; j++) {
+                    if (sub != str.substr(i * j, i)) {
+                        break;
+                    }
+                }
+                
+                if (j == len / i)
+                    return true;
+            }
+        }
+        
+        return false;
+    }
