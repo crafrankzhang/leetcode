@@ -1,0 +1,54 @@
+class Solution {
+public:
+    vector<vector<int>> palindromePairs(vector<string>& words) {
+        vector<vector<int> > result;
+        unordered_map<string,int> dict;
+        int size = words.size();
+        
+        string left, right,tmp;
+        for(int i = 0; i < size; ++i)
+        {
+            tmp = words[i];
+            reverse(tmp.begin(),tmp.end());
+            dict[tmp] = i;
+        }
+        
+        for(int i = 0; i < size; ++i)
+        {
+            for(int j = 0; j < words[i].size(); ++j)
+            {
+                left = words[i].substr(0,j);
+                right = words[i].substr(j);
+                if(dict.find(left) != dict.end() && dict[left] != i && isPalindrome(right))
+                {
+                    result.push_back({i, dict[left]});
+                    if(left.empty())//如果为空单独判断
+                        result.push_back({dict[left],i});
+                }
+                if(dict.find(right) != dict.end() && dict[right] != i &&
+                    isPalindrome(left))
+                {
+                    result.push_back({dict[right], i}); 
+                }
+                
+            }
+        }
+        
+        return result;
+    }
+    
+private:
+    bool isPalindrome(string s)
+    {
+        int left = 0, right = s.size() - 1;
+        while(left < right)
+        {
+            if(s[left] != s[right])
+                return false;
+            left++;
+            right--;
+            
+        }
+        return true;
+    }
+};
