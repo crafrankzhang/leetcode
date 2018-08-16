@@ -1,0 +1,34 @@
+public class Solution {
+    List<TreeNode> treeList = new ArrayList<TreeNode>();
+
+    public TreeNode convertBST(TreeNode root) {
+        /*
+        思路：采取先序遍历的方式，把所有节点加入到列表中，然后从后面起依次向前加即可
+        */
+        if(root == null || root.left == null && root.right == null){
+            return root;
+        }
+        goThrough(root);
+
+        int len = treeList.size();
+        int sum = treeList.get(len - 1).val; // 保存所有比当前节点大（即list中排在当前节点之后的元素）的和
+
+        for(int i = len - 2; i >= 0; i--){
+            int val = treeList.get(i).val;
+            treeList.get(i).val += sum;
+            sum += val;
+        }
+
+        return root;
+    }
+
+    private void goThrough(TreeNode root){
+        if(root.left != null){
+            goThrough(root.left);
+        }
+        treeList.add(root);
+        if(root.right != null){
+            goThrough(root.right);
+        }
+    }
+}
