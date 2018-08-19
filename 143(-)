@@ -1,0 +1,51 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if(head ==NULL || head->next == NULL ||head->next->next == NULL)
+            return;
+        //用快慢指针将链表分为两部分，若为奇数则第一部分大1
+        ListNode *fast,*slow,*head1,*head2,*post,*cur,*tmp = NULL;
+        fast = slow = head;
+        while(fast->next != NULL)
+        {
+            fast = fast->next;
+            if(fast->next == NULL) break;
+            fast = fast->next;
+            slow = slow->next;
+        }
+        head1 = head;
+        cur = head2 = slow->next;
+        slow->next = NULL;  //这里要注意，断开的部分要设NULL
+        //将第二部分链表反转
+        post = head2->next;
+        cur->next = NULL;
+        while(post!=NULL)
+        {
+            tmp = post->next;
+            post->next = cur;
+            cur = post;
+            post = tmp;
+        }
+        head2 = cur;
+        //将第二部分插入到第一部分
+        ListNode *cur1 = head1;
+        ListNode *cur2 = head2;
+        while(cur2!=NULL)
+        {
+            tmp = cur1->next;
+            cur1->next = cur2;
+            post = cur2->next;
+            cur2->next = tmp;
+            cur1 = tmp;
+            cur2 = post;
+        }
+    }
+};
