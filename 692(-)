@@ -1,0 +1,53 @@
+//首先想到用set红黑树排序来做
+//这个方法的复杂度是nlogn
+class word{
+public:
+    string content;
+    int frequent;
+    
+    word(string a, int b):content(a), frequent(b) {}
+    bool operator<(const word b) const
+    {
+        if (this->frequent == b.frequent) {
+            int k = 0;
+            while (k < this->content.size() && k < b.content.size()){
+                if (this->content[k] == b.content[k])
+                {
+                    k++;
+                    continue;
+                }
+                return this->content[k] < b.content[k];
+            }
+        }
+        return this->frequent > b.frequent;
+    }
+};
+ 
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& wordss, int k)
+    {   //第一阶段
+        unordered_map<string, int> mp; //hash O(n)
+        for (auto word : wordss)
+        {
+            mp[word]++;
+        }
+        //第二阶段
+        multiset<word> st;  //必须是multiset，不然会出错。某些情况下，相同的frequence是不能添加进set的
+        for (auto it : mp)  //O(nlogn)
+        {
+            st.insert(word(it.first, it.second));
+        }
+        for (auto it : st)
+            cout<<it.content<<"-"<<it.frequent<<"   ";
+        //第三阶段
+        vector<string> ret;
+        for (auto it : st)
+        {
+            ret.push_back( it.content );
+            if (--k == 0) break;
+        }
+        return ret;
+    }
+};
+
