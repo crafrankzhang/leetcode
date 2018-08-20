@@ -1,0 +1,131 @@
+class LRUCache{
+private:
+    int capacity;
+    map<int,int> datas;
+    list<int> s;
+public:
+    LRUCache(int capacity) {
+        this->capacity=capacity;
+    }
+    
+    int get(int key) {
+        auto iter=datas.find(key);
+        if(iter!=datas.end())
+        {
+            update(iter);
+            return iter->second;
+        }
+        else
+            return -1;
+    }
+    
+    void set(int key, int value) {
+        int length=datas.size();
+        auto iter=datas.find(key);
+        if(iter!=datas.end())
+        {
+            datas[key]=value;
+            update(iter);
+        }
+        else
+        {
+            if(length>=capacity)
+            {
+                datas.erase(s.back());
+                s.pop_back();
+                
+            }
+            s.push_front(key);
+            datas[key]=vala//C++实现
+class Solution {
+public:
+    string countAndSay(int n) {
+        return countAndSay("1", 1, n);
+        // return _countAndSay(n);
+    }
+private:
+    //递归版本
+    string countAndSay(string s, int depth, int n) {
+        if(depth == n) return s;
+        string ans;
+        int cnt = 1;
+        for(int i = 0;i < s.length();i++){
+            if(s[i] == s[i + 1]){
+                cnt++;
+            }
+            else {
+                ans += cnt + '0';
+                ans += s[i];
+                cnt = 1;
+            }
+        }
+        return countAndSay(ans, depth + 1, n);
+    }
+    //非递归版本
+    string _countAndSay(int n) {
+        string tmp = "1";
+        string ans;
+        int cnt = 1;
+        for(int i = 2;i <= n;i++){
+            for(int j = 0;j < tmp.length();j++){
+                if(tmp[j] == tmp[j + 1]){
+                    cnt++;
+                }
+                else {
+                    ans += cnt + '0';
+                    ans += tmp[j];
+                    cnt = 1;
+                }
+            }
+            tmp = ans;
+            ans = "";
+        }
+        return tmp;
+    }
+};
+ 
+//C语言实现
+#define maxn 10005
+char s[maxn], t[maxn];
+ 
+char* countAndSay(int n) {
+    
+    
+    strcpy(s, "1");
+    strcpy(t, "");
+    int cnt = 1;
+    char tmp[3];
+    for(int i = 2;i <= n;i++){
+        int len = strlen(s); 
+        for(int j = 0;j < len;j++){
+            if(s[j] == s[j + 1]){
+                cnt++;
+            }else {
+                tmp[0] = cnt + '0';
+                tmp[1] = s[j];
+                tmp[2] = '\0';
+                strcat(t, tmp);
+                cnt = 1;
+            }
+        }
+        strcpy(s, t);
+        strcpy(t, "");
+    }
+    
+    return s; 
+}
+
+ue;
+        }
+    }
+    
+    private:
+    void update(map<int,int>::iterator iter)
+    {
+        int key=iter->first;
+        s.remove(key);
+        s.push_front(key);
+    }
+ 
+};
+

@@ -1,0 +1,52 @@
+class LRUCache{
+private:
+    int capacity;
+    map<int,int> datas;
+    list<int> s;
+public:
+    LRUCache(int capacity) {
+        this->capacity=capacity;
+    }
+    
+    int get(int key) {
+        auto iter=datas.find(key);
+        if(iter!=datas.end())
+        {
+            update(iter);
+            return iter->second;
+        }
+        else
+            return -1;
+    }
+    
+    void set(int key, int value) {
+        int length=datas.size();
+        auto iter=datas.find(key);
+        if(iter!=datas.end())
+        {
+            datas[key]=value;
+            update(iter);
+        }
+        else
+        {
+            if(length>=capacity)
+            {
+                datas.erase(s.back());
+                s.pop_back();
+                
+            }
+            s.push_front(key);
+            datas[key]=value;
+        }
+    }
+    
+    private:
+    void update(map<int,int>::iterator iter)
+    {
+        int key=iter->first;
+        s.remove(key);
+        s.push_front(key);
+    }
+ 
+};
+
